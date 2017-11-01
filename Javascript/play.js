@@ -30,7 +30,7 @@ var playState = {
 
 		//powerup
 		//this.powerup = customClasses.PowerUp(10);
-		this.powerup = this.createPowerup();
+		this.powerup = customClasses.PowerUp(10);
 
 		//enemy health display
 	    this.nameLabel = game.add.text(150 ,50, 'Enemy: ' + this.enemy.health, {
@@ -46,6 +46,7 @@ var playState = {
 		this.game.physics.arcade.collide(this.player, this.enemy);
 		this.game.physics.arcade.overlap(bullets, this.enemy, this.collisionHandler1, null, this);
 		this.game.physics.arcade.overlap(this.player, this.powerup, this.collisionHandler2, null, this);
+		this.game.physics.arcade.overlap(this.enemy, this.powerup, this.collisionHandler3, null, this);
 	
 		//move player
 		if(cursors.left.isDown){
@@ -132,6 +133,12 @@ var playState = {
 			bullets.callAll('scale.setTo', 'scale', 0.075);
 	},
 
+	collisionHandler3: function(enemy, powerup){
+			this.powerup.kill();
+			this.enemy.health = this.enemy.health + this.powerup.power * 2;
+			this.nameLabel.text = 'Enemy: ' + this.enemy.health;
+	}
+/*
 	//create powerup
 	createPowerup: function(){
 
@@ -140,5 +147,7 @@ var playState = {
 
 		return powerup;
 	}
+
+	*/
 };
 
